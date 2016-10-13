@@ -64,20 +64,20 @@ BabysitterSkill.prototype.constructor = BabysitterSkill;
     "AMAZON.HelpIntent": function (intent, session, response) {
       var speechText = "";
 
-      switch (session.attributes.stage) {
-        case 0:
-        speechText = "Knock knock jokes are a fun call and response type of joke. " +
-        "To start the joke, just ask by saying tell me a joke, or you can say exit.";
-        break;
-        case 1:
-        speechText = "You can ask, who's there, or you can say exit.";
-        break;
-        case 2:
-        speechText = "You can ask, who, or you can say exit.";
-        break;
-        default:
-        speechText = "Knock knock jokes are a fun call and response type of joke. " +
-        "To start the joke, just ask by saying tell me a joke, or you can say exit.";
+      switch (session.attributes.lastQuestion) {
+        case "greeting":
+          speechText = "Welcome to Babysitter.  " +
+          "If you have already saved a child say yes, otherwise say no. You can also say exit. ";
+          break;
+        case "edit-delete-add-child":
+          speechText = "You can edit or delete a child that you have already saved previously, or you can add a new child. You can also say exit. ";
+          break;
+          case "add-new-child":
+        speechText = "You can say, yes to add a new child, or you can exit. ";
+          break;
+          default:
+          speechText = "Welcome to Babysitter.  " +
+          "To start adding a new child, say add new child, or you can exit. ";
       }
 
       var speechOutput = {
@@ -131,7 +131,7 @@ function yesResponse(session, response) {
     //Reprompt speech will be triggered if the user doesn't respond.
     var repromptText = "Please say edit, delete, or new";
 
-    session.attributes.lastQuestion = "edit-delete-add-child"
+    session.attributes.lastQuestion = "edit-delete-add-child";
   }
 
     var speechOutput = {
@@ -152,6 +152,8 @@ function noResponse(session, response) {
 
     //Reprompt speech will be triggered if the user doesn't respond.
     var repromptText = "Please say yes or no";
+
+    session.attributes.lastQuestion = "add-new-child";
   }
 
     var speechOutput = {
