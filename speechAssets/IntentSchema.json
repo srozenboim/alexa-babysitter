@@ -1,10 +1,10 @@
 {
   "intents": [
     {
-      "intent": "TellMeAJokeIntent"
+      "intent": "AMAZON.YesIntent"
     },
     {
-      "intent": "WhosThereIntent"
+      "intent": "AMAZON.NoIntent"
     },
     {
      "intent": "SetupNameWhoIntent",
