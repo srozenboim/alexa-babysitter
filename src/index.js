@@ -1,31 +1,4 @@
 /**
-    Copyright 2014-2015 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-
-    Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at
-
-        http://aws.amazon.com/apache2.0/
-
-    or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-    */
-
-/**
- * This sample shows how to create a Lambda function for handling Alexa Skill requests that:
- *
- * - Session State: Handles a multi-turn dialog model.
- * - Custom slot type: demonstrates using custom slot types to handle a finite set of known values
- * - SSML: Using SSML tags to control how Alexa renders the text-to-speech.
- *
- * Examples:
- * Dialog model:
- *  User: "Alexa, ask Wise Guy to tell me a knock knock joke."
- *  Alexa: "Knock knock"
- *  User: "Who's there?"
- *  Alexa: "<phrase>"
- *  User: "<phrase> who"
- *  Alexa: "<Punchline>"
- */
-
-/**
  * App ID for the skill
  */
 var APP_ID = undefined;//replace with 'amzn1.echo-sdk-ams.app.[your-unique-value-here]';
@@ -157,6 +130,8 @@ function yesResponse(session, response) {
 
     //Reprompt speech will be triggered if the user doesn't respond.
     var repromptText = "Please say edit, delete, or new";
+
+    session.attributes.lastQuestion = "edit-delete-add-child"
   }
 
     var speechOutput = {
