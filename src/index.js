@@ -33,25 +33,27 @@ var APP_ID = undefined;//replace with 'amzn1.echo-sdk-ams.app.[your-unique-value
 /**
  * Array containing knock knock jokes.
  */
-var JOKE_LIST = [
-    {setup: "To", speechPunchline: "Correct grammar is <break time=\"0.2s\" /> to whom.",
-        cardPunchline: "Correct grammar is 'to whom'."},
-    {setup: "Beets!", speechPunchline: "Beats me!", cardPunchline: "Beats me!"},
-    {setup: "Little Old Lady", speechPunchline: "I didn't know you could yodel!",
-        cardPunchline: "I didn't know you could yodel!"},
-    {setup: "A broken pencil", speechPunchline: "Never mind. It's pointless.",
-        cardPunchline: "Never mind. It's pointless."},
-    {setup: "Snow", speechPunchline: "Snow use. I forgot", cardPunchline: "Snow use. I forgot"},
-    {setup: "Boo", speechPunchline: "Aww <break time=\"0.3s\" /> it's okay <break time=\"0.3s\" /> don't cry.",
-        cardPunchline: "Aww, it's okay, don't cry."},
-    {setup: "Woo", speechPunchline: "Don't get so excited, it's just a joke",
-        cardPunchline: "Don't get so excited, it's just a joke"},
-    {setup: "Spell", speechPunchline: "<say-as interpret-as=\"characters\">who</say-as>",
-        cardPunchline: "w.h.o"},
-    {setup: "Atch", speechPunchline: "I didn't know you had a cold!", cardPunchline: "I didn't know you had a cold!"},
-    {setup: "Owls", speechPunchline: "Yes, they do.", cardPunchline: "Yes, they do."},
-    {setup: "Berry!", speechPunchline: "Berry nice to meet you.", cardPunchline: "Berry nice to meet you."}
-];
+// var JOKE_LIST = [
+//     {setup: "To", speechPunchline: "Correct grammar is <break time=\"0.2s\" /> to whom.",
+//         cardPunchline: "Correct grammar is 'to whom'."},
+//     {setup: "Beets!", speechPunchline: "Beats me!", cardPunchline: "Beats me!"},
+//     {setup: "Little Old Lady", speechPunchline: "I didn't know you could yodel!",
+//         cardPunchline: "I didn't know you could yodel!"},
+//     {setup: "A broken pencil", speechPunchline: "Never mind. It's pointless.",
+//         cardPunchline: "Never mind. It's pointless."},
+//     {setup: "Snow", speechPunchline: "Snow use. I forgot", cardPunchline: "Snow use. I forgot"},
+//     {setup: "Boo", speechPunchline: "Aww <break time=\"0.3s\" /> it's okay <break time=\"0.3s\" /> don't cry.",
+//         cardPunchline: "Aww, it's okay, don't cry."},
+//     {setup: "Woo", speechPunchline: "Don't get so excited, it's just a joke",
+//         cardPunchline: "Don't get so excited, it's just a joke"},
+//     {setup: "Spell", speechPunchline: "<say-as interpret-as=\"characters\">who</say-as>",
+//         cardPunchline: "w.h.o"},
+//     {setup: "Atch", speechPunchline: "I didn't know you had a cold!", cardPunchline: "I didn't know you had a cold!"},
+//     {setup: "Owls", speechPunchline: "Yes, they do.", cardPunchline: "Yes, they do."},
+//     {setup: "Berry!", speechPunchline: "Berry nice to meet you.", cardPunchline: "Berry nice to meet you."}
+// ];
+
+
 
 /**
  * The AlexaSkill prototype and helper functions
@@ -59,23 +61,23 @@ var JOKE_LIST = [
 var AlexaSkill = require('./AlexaSkill');
 
 /**
- * WiseGuySkill is a child of AlexaSkill.
+ * BabysitterSkill is a child of AlexaSkill.
  * To read more about inheritance in JavaScript, see the link below.
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript#Inheritance
  */
-var WiseGuySkill = function () {
+var BabysitterSkill = function () {
     AlexaSkill.call(this, APP_ID);
 };
 
 // Extend AlexaSkill
-WiseGuySkill.prototype = Object.create(AlexaSkill.prototype);
-WiseGuySkill.prototype.constructor = WiseGuySkill;
+BabysitterSkill.prototype = Object.create(AlexaSkill.prototype);
+BabysitterSkill.prototype.constructor = BabysitterSkill;
 
 /**
  * Overriden to show that a subclass can override this function to initialize session state.
  */
-WiseGuySkill.prototype.eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
+BabysitterSkill.prototype.eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
     console.log("onSessionStarted requestId: " + sessionStartedRequest.requestId
         + ", sessionId: " + session.sessionId);
 
@@ -85,33 +87,30 @@ WiseGuySkill.prototype.eventHandlers.onSessionStarted = function (sessionStarted
 /**
  * If the user launches without specifying an intent, route to the correct function.
  */
-WiseGuySkill.prototype.eventHandlers.onLaunch = function (launchRequest, session, response) {
-    console.log("WiseGuySkill onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
+BabysitterSkill.prototype.eventHandlers.onLaunch = function (launchRequest, session, response) {
+    console.log("BabysitterSkill onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
 
-    handleTellMeAJokeIntent(session, response);
+    initialGreeting(session, response);
 };
 
 /**
  * Overriden to show that a subclass can override this function to teardown session state.
  */
-WiseGuySkill.prototype.eventHandlers.onSessionEnded = function (sessionEndedRequest, session) {
+BabysitterSkill.prototype.eventHandlers.onSessionEnded = function (sessionEndedRequest, session) {
     console.log("onSessionEnded requestId: " + sessionEndedRequest.requestId
         + ", sessionId: " + session.sessionId);
 
     //Any session cleanup logic would go here.
 };
 
-WiseGuySkill.prototype.intentHandlers = {
-    "TellMeAJokeIntent": function (intent, session, response) {
+BabysitterSkill.prototype.intentHandlers = {
+
+    "YesIntent": function (intent, session, response) {
         handleTellMeAJokeIntent(session, response);
     },
 
-    "WhosThereIntent": function (intent, session, response) {
-        handleWhosThereIntent(session, response);
-    },
-
-    "SetupNameWhoIntent": function (intent, session, response) {
-        handleSetupNameWhoIntent(session, response);
+    "NoIntent": function (intent, session, response) {
+        handleTellMeAJokeIntent(session, response);
     },
 
     "AMAZON.HelpIntent": function (intent, session, response) {
@@ -156,41 +155,12 @@ WiseGuySkill.prototype.intentHandlers = {
     }
 };
 
-/**
- * Selects a joke randomly and starts it off by saying "Knock knock".
- */
-function handleTellMeAJokeIntent(session, response) {
-    var speechText = "";
+
+function initialGreeting(session, response) {
+    var speechText = "Welcome to Babysitter. Have you already saved a child?";
 
     //Reprompt speech will be triggered if the user doesn't respond.
-    var repromptText = "You can ask, who's there";
-
-    //Check if session variables are already initialized.
-    if (session.attributes.stage) {
-
-        //Ensure the dialogue is on the correct stage.
-        if (session.attributes.stage === 0) {
-            //The joke is already initialized, this function has no more work.
-            speechText = "knock knock!";
-        } else {
-            //The user attempted to jump to the intent of another stage.
-            session.attributes.stage = 0;
-            speechText = "That's not how knock knock jokes work! "
-                + "knock knock";
-        }
-    } else {
-        //Select a random joke and store it in the session variables.
-        var jokeID = Math.floor(Math.random() * JOKE_LIST.length);
-
-        //The stage variable tracks the phase of the dialogue. 
-        //When this function completes, it will be on stage 1.
-        session.attributes.stage = 1;
-        session.attributes.setup = JOKE_LIST[jokeID].setup;
-        session.attributes.speechPunchline = JOKE_LIST[jokeID].speechPunchline;
-        session.attributes.cardPunchline = JOKE_LIST[jokeID].cardPunchline;
-
-        speechText = "Knock knock!";
-    }
+    var repromptText = "Please say yes or no";
 
     var speechOutput = {
         speech: speechText,
@@ -200,9 +170,44 @@ function handleTellMeAJokeIntent(session, response) {
         speech: repromptText,
         type: AlexaSkill.speechOutputType.PLAIN_TEXT
     };
-    response.askWithCard(speechOutput, repromptOutput, "Wise Guy", speechText);
+    response.askWithCard(speechOutput, repromptOutput, "Babysitter", speechText);
 }
 
+// If user says that they already have saved a child
+function yesResponse(session, response) {
+    var speechText = "Would you like to edit, delete, or add a new child?";
+
+    //Reprompt speech will be triggered if the user doesn't respond.
+    var repromptText = "Please say edit, delete, or new";
+
+    var speechOutput = {
+        speech: speechText,
+        type: AlexaSkill.speechOutputType.PLAIN_TEXT
+    };
+    var repromptOutput = {
+        speech: repromptText,
+        type: AlexaSkill.speechOutputType.PLAIN_TEXT
+    };
+    response.askWithCard(speechOutput, repromptOutput, "Babysitter", speechText);
+}
+
+// If user says that they have not yet saved a child
+function yesResponse(session, response) {
+    var speechText = "Would you like to edit, delete, or add a new child?";
+
+    //Reprompt speech will be triggered if the user doesn't respond.
+    var repromptText = "Please say edit, delete, or new";
+
+    var speechOutput = {
+        speech: speechText,
+        type: AlexaSkill.speechOutputType.PLAIN_TEXT
+    };
+    var repromptOutput = {
+        speech: repromptText,
+        type: AlexaSkill.speechOutputType.PLAIN_TEXT
+    };
+    response.askWithCard(speechOutput, repromptOutput, "Babysitter", speechText);
+}
 /**
  * Responds to the user saying "Who's there".
  */
@@ -308,6 +313,6 @@ function handleSetupNameWhoIntent(session, response) {
 // Create the handler that responds to the Alexa Request.
 exports.handler = function (event, context) {
     // Create an instance of the WiseGuy Skill.
-    var skill = new WiseGuySkill();
+    var skill = new BabysitterSkill();
     skill.execute(event, context);
 };
