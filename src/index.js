@@ -192,11 +192,11 @@ function yesResponse(session, response) {
 }
 
 // If user says that they have not yet saved a child
-function yesResponse(session, response) {
-    var speechText = "Would you like to edit, delete, or add a new child?";
+function noResponse(session, response) {
+    var speechText = "Would you like to add a new child?";
 
     //Reprompt speech will be triggered if the user doesn't respond.
-    var repromptText = "Please say edit, delete, or new";
+    var repromptText = "Please say yes or no";
 
     var speechOutput = {
         speech: speechText,
