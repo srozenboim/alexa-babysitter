@@ -137,7 +137,7 @@ function initialGreeting(session, response) {
     //Reprompt speech will be triggered if the user doesn't respond.
     var repromptText = "Please say yes or no";
 
-    session.lastQuestion = "greeting"
+    session.attributes.lastQuestion = "greeting"
 
     var speechOutput = {
       speech: speechText,
@@ -152,7 +152,7 @@ function initialGreeting(session, response) {
 
 // If user says that they already have saved a child
 function yesResponse(session, response) {
-  if(session.lastQuestion === "greeting") {
+  if(session.attributes.lastQuestion === "greeting") {
     var speechText = "Would you like to edit, delete, or add a new child?";
 
     //Reprompt speech will be triggered if the user doesn't respond.
@@ -172,13 +172,13 @@ function yesResponse(session, response) {
 
 // If user says that they have not yet saved a child
 function noResponse(session, response) {
-  if(session.lastQuestion === "greeting") {
+  if(session.attributes.lastQuestion === "greeting") {
     var speechText = "Would you like to add a new child?";
 
     //Reprompt speech will be triggered if the user doesn't respond.
     var repromptText = "Please say yes or no";
   }
-  
+
     var speechOutput = {
       speech: speechText,
       type: AlexaSkill.speechOutputType.PLAIN_TEXT
